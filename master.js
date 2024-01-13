@@ -1,5 +1,4 @@
-var qrcode = new QRCode("qrcode");
-var elText = document.getElementById("url");
+let qurl = new QRCode("qrcode");
 
 function downloadURI(uri, name) {
   var link = document.createElement("a");
@@ -12,14 +11,15 @@ function downloadURI(uri, name) {
 }
 
 function makeCode() {
-  qrcode.makeCode(elText.value);
-  $("#qhref").attr("href", elText.value);
+  qurl.makeCode($("#url").val());
+  $("#qhref").attr("href", $("#url").val());
   $("#qshow").removeClass("d-none");
+  $("#qrcode > img").css({ margin: "auto" });
 }
 
 $("#btnDownload").click(function () {
   let dataUrl = document.querySelector("#qrcode").querySelector("img").src;
-  downloadURI(dataUrl, elText.value + ".png");
+  downloadURI(dataUrl, $("#url").val() + ".png");
 });
 
 $("#btnGenerate").click(function () {
@@ -30,4 +30,3 @@ $("#btnGenerate").click(function () {
     $("#loading").toggleClass("d-none");
   }, 500);
 });
-$("#qrcode > img").css({ margin: "auto" });
