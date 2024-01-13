@@ -1,6 +1,5 @@
-// var qrcode = new QRCode("qrcode", "https://www.example.net");
-
 var qrcode = new QRCode("qrcode");
+var elText = document.getElementById("url");
 
 function downloadURI(uri, name) {
   var link = document.createElement("a");
@@ -13,34 +12,22 @@ function downloadURI(uri, name) {
 }
 
 function makeCode() {
-  var elText = document.getElementById("url");
-
-  if (!elText.value) {
-    alert("Input a text");
-    elText.focus();
-    return;
-  }
-
   qrcode.makeCode(elText.value);
-  setTimeout(function () {
-    $("#btnDownload").removeClass("d-none");
-  }, 500);
+  $("#qhref").attr("href", elText.value);
+  $("#qshow").removeClass("d-none");
 }
 
 $("#btnDownload").click(function () {
   let dataUrl = document.querySelector("#qrcode").querySelector("img").src;
-  downloadURI(dataUrl, "qrcode.png");
+  downloadURI(dataUrl, elText.value + ".png");
 });
 
-makeCode();
-
-$("#url")
-  .on("blur", function () {
+$("#btnGenerate").click(function () {
+  $("#qshow").addClass("d-none");
+  $("#loading").toggleClass("d-none");
+  setTimeout(function () {
     makeCode();
-  })
-  .on("keydown", function (e) {
-    if (e.keyCode == 13) {
-      makeCode();
-    }
-  });
+    $("#loading").toggleClass("d-none");
+  }, 500);
+});
 $("#qrcode > img").css({ margin: "auto" });
